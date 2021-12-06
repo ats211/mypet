@@ -10,15 +10,19 @@ const mix = require('laravel-mix');
  | file for the application as well as bundling up all the JS files.
  |
  */
-
-mix.js('resources/js/app.js', 'public/js')
+mix
+    .setPublicPath('public/build')
+    .setResourceRoot('/build/')
+    .js('resources/js/app.js', 'js')
     .vue()
-    .postCss('resources/css/app.css', 'public/css', [
+    .postCss('resources/css/app.css', 'css', [
         require('postcss-import'),
         require('tailwindcss'),
         require('autoprefixer'),
     ])
-    .webpackConfig(require('./webpack.config'));
+    .webpackConfig(require('./webpack.config'))
+    .sourceMaps()
+;
 
 if (mix.inProduction()) {
     mix.version();
